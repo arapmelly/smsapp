@@ -66489,7 +66489,7 @@ var render = function() {
         _c(
           "ou-panel",
           {
-            attrs: { title: "Create Contact", size: "medium" },
+            attrs: { title: "Create Contact" },
             model: {
               value: _vm.createPanel,
               callback: function($$v) {

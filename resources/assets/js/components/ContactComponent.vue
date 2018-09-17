@@ -27,7 +27,7 @@
 
 
 
-                <ou-panel title='Create Contact' size='medium' v-model='createPanel'>
+                <ou-panel title='Create Contact'  v-model='createPanel'>
     				
 
                 	<ou-text-field v-model='f_name' label='First Name' />
