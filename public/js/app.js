@@ -67518,6 +67518,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		this.getTexts();
 		this.getOutboxes();
 		this.getGroups();
+		this.minDate = new Date(Date.now() - 86400000);
 	},
 	data: function data() {
 
@@ -67535,7 +67536,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			editPanel: false,
 			smsTemplate: false,
 			createSinglePanel: false,
-			minDate: new Date(Date.now() - 86400000)
+			minDate: ''
 		};
 	},
 

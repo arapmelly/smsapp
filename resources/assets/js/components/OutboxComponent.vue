@@ -170,6 +170,7 @@
 			this.getTexts()
 			this.getOutboxes()
 			this.getGroups()
+			this.minDate = new Date(Date.now() - 86400000)
 		},
 
 		data(){
@@ -188,7 +189,7 @@
 				editPanel: false,
 				smsTemplate: false,
 				createSinglePanel: false,
-				minDate: new Date(Date.now() - 86400000)
+				minDate: ''
 			}
 		},
 
