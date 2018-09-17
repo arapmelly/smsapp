@@ -13,7 +13,7 @@
                     
 
                     <div class="row">
-                    <div class="col-md-2 conts" v-for="contact in contacts" >
+                    <div class="col-md-2 conts" v-for="contact in contacts" style="padding:10px;">
 
                     	<ou-button type='compound' :description='contact.phone' @click="showEditPanel(contact)">{{contact.name}}<br>{{contact.group}}</ou-button>
 

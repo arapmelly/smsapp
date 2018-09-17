@@ -66458,7 +66458,10 @@ var render = function() {
             _vm._l(_vm.contacts, function(contact) {
               return _c(
                 "div",
-                { staticClass: "col-md-2 conts" },
+                {
+                  staticClass: "col-md-2 conts",
+                  staticStyle: { padding: "10px" }
+                },
                 [
                   _c(
                     "ou-button",
