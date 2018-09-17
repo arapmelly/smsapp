@@ -199,7 +199,7 @@ class BulkController extends Controller
 
         //query all sms set to be posted based on date and time.
 
-        $outbounds = DB::table('bulks')->where('send_date', '=', $date)->where('send_time', '=', $time)->get();
+        $outbounds = DB::table('bulks')->where('send_date', '=', $date)->where('send_time', '=', $time)->where('is_send', '=', false)->get();
 
         foreach ($outbounds as $key => $outbound) {
             # code...
