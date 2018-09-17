@@ -23,6 +23,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $component = 'outbox-component';
+        return redirect()->route('admindash', ['component'=>$component]);
     }
 }

@@ -22,3 +22,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('outboxes/bulk', 'OutboxController@sendBulk');
 
 Route::get('bulks/send-bulk', 'BulkController@sendBulk');
+
+
+Route::get('admindash/{component}', function ($component) {
+
+    return view('dashboard', compact('component'));
+    
+})->name('admindash');

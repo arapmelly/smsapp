@@ -35,6 +35,40 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
 
+
+                         @guest
+
+                        @else
+
+                         
+
+                        
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('admindash', ['component' => 'outbox-component']) }}">{{ __('OUTBOX') }}</a>
+                            </li>
+
+                             <li class="nav-item">
+                                <a class="nav-link" href="{{ route('admindash', ['component' => 'contact-component']) }}">{{ __('CONTACTS') }}</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('admindash', ['component' => 'group-component']) }}">{{ __('GROUPS') }}</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('admindash', ['component' => 'text-component']) }}">{{ __('TEMPLATES') }}</a>
+                            </li>
+
+                            
+
+
+                             
+
+                       
+
+                        @endguest
+
                     </ul>
 
                     <!-- Right Side Of Navbar -->
