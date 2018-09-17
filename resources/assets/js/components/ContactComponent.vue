@@ -6,7 +6,7 @@
                 <div class="card-header">
                 	
                 	<ou-button type='primary' @click="showCreatePanel()">create</ou-button>
-                	<ou-button type='primary' @click="showCreatePanel()">import</ou-button>
+                	<ou-button type='primary' @click="showImportPanel()">import</ou-button>
                 </div>
 
                 <div class="card-body">
@@ -50,6 +50,32 @@
                 	<br>
 
                 	<ou-button type='primary' @click="createContact()">Create</ou-button>
+
+  				</ou-panel>
+
+
+  				<ou-panel title='Import Contact' size='medium' v-model='importPanel'>
+    				
+
+                	
+
+                	<label>Upload File (excel,csv)</label>
+                	<input type="file" name="contact_file" ref="contact_file" v-on:change="handleFileUpload()" required>
+
+
+                	<label>Group</label>
+                	
+                	<select v-model="import_group_id" class="form-control">
+                		
+                		<option v-for="group in groups" :value="group.id">{{group.name}}</option>
+                	
+                	</select>
+
+                	
+
+                	<br>
+
+                	<ou-button type='primary' @click="importContact()">Import</ou-button>
 
   				</ou-panel>
 
@@ -106,13 +132,16 @@
 				contacts: [],
 				groups: [],
 				group_id: '',
+				import_group_id: '',
 				f_name: '',
 				l_name: '',
 				phone: '',
 				email: '',
 				contact: {},
 				createPanel: false,
-				editPanel: false
+				editPanel: false,
+				importPanel: false,
+				contact_file: ''
 			}
 		},
 
@@ -166,6 +195,11 @@
 				this.createPanel = true
 			},
 
+			showImportPanel(){
+
+				this.importPanel = true
+			},
+
 			showEditPanel(contact){
 				this.contact = contact
 				this.editPanel = true
@@ -201,6 +235,37 @@
 					alert(error)
 				})
 			},
+
+
+			handleFileUpload(){
+
+				this.contact_file = this.$refs.contact_file.files[0];
+
+				console.log(this.contact_file)
+			},
+
+
+			importContact(){
+				
+
+				let formData = new FormData()
+				formData.append('contact_file', this.contact_file)
+				formData.append('group_id', this.import_group_id)
+				
+
+				console.log(formData)
+
+				axios.post('/api/contacts/import', formData, { headers: {'Content-Type': 'multipart/form-data' } }).then(response => {
+					this.getContacts()
+					this.importPanel = false
+
+				}).catch(error =>{
+					console.log(error)
+					alert(error)
+
+				})
+			}
+
 
 
 		}

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Contact;
+use Excel;
+use Illuminate\Support\Facades\Log;
 
 class ContactController extends Controller
 {
@@ -118,5 +120,32 @@ class ContactController extends Controller
         //
 
         return Contact::destroy($id);
+    }
+
+
+    public function import(Request $request){
+
+        $group_id = $request->group_id;
+
+        $path = $request->contact_file->path();
+
+        $data = Excel::load($path, function($reader) { 
+
+                })->get();
+
+       
+
+        foreach ($data as $d) {
+          
+           $contact = new Contact;
+           $contact->f_name = $d->fname;
+           $contact->l_name = $d->lname;
+           $contact->phone = Contact::formatPhone($d->phone);
+           $contact->group_id = $group_id;
+           $contact->save();
+
+        }
+            
+        return ['status'=>true, 'data'=>$data];
     }
 }

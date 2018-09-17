@@ -20,3 +20,5 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('outboxes/bulk', 'OutboxController@sendBulk');
+
+Route::get('bulks/send-bulk', 'BulkController@sendBulk');

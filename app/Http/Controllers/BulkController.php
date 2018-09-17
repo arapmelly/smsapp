@@ -8,6 +8,8 @@ use App\Bulk;
 
 use AfricasTalking\SDK\AfricasTalking;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class BulkController extends Controller
 {
@@ -179,6 +181,38 @@ class BulkController extends Controller
              return ['status'=>false, 'data'=>$response];
         }
         
+    }
+
+
+
+    public function sendBulk(){
+
+        // get the current date and time
+        $datetime = Carbon::now();
+        $datetime = explode(' ', $datetime);
+
+        $date = $datetime[0];
+        $time = $datetime[1];
+
+        //set seconds to 00
+        $time = Bulk::setTime($time);
+
+        //query all sms set to be posted based on date and time.
+
+        $outbounds = DB::table('bulks')->where('send_date', '=', $date)->where('send_time', '=', $time)->get();
+
+        foreach ($outbounds as $key => $outbound) {
+            # code...
+           
+            $contacts = Bulk::getContacts($outbound->group_id);
+           
+            $sendbulk = Bulk::sendBulk($outbound->id, $contacts, $outbound->text);
+            
+        }
+
+        
+
+        return ['status'=>true];
     }
 
 

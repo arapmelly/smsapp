@@ -66242,6 +66242,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -66257,13 +66283,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			contacts: [],
 			groups: [],
 			group_id: '',
+			import_group_id: '',
 			f_name: '',
 			l_name: '',
 			phone: '',
 			email: '',
 			contact: {},
 			createPanel: false,
-			editPanel: false
+			editPanel: false,
+			importPanel: false,
+			contact_file: ''
 		};
 	},
 
@@ -66314,6 +66343,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			this.createPanel = true;
 		},
+		showImportPanel: function showImportPanel() {
+
+			this.importPanel = true;
+		},
 		showEditPanel: function showEditPanel(contact) {
 			this.contact = contact;
 			this.editPanel = true;
@@ -66343,6 +66376,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				_this5.getContacts();
 				_this5.editPanel = false;
 			}).catch(function (error) {
+				alert(error);
+			});
+		},
+		handleFileUpload: function handleFileUpload() {
+
+			this.contact_file = this.$refs.contact_file.files[0];
+
+			console.log(this.contact_file);
+		},
+		importContact: function importContact() {
+			var _this6 = this;
+
+			var formData = new FormData();
+			formData.append('contact_file', this.contact_file);
+			formData.append('group_id', this.import_group_id);
+
+			console.log(formData);
+
+			axios.post('/api/contacts/import', formData, { headers: { 'Content-Type': 'multipart/form-data' } }).then(function (response) {
+				_this6.getContacts();
+				_this6.importPanel = false;
+			}).catch(function (error) {
+				console.log(error);
 				alert(error);
 			});
 		}
@@ -66385,7 +66441,7 @@ var render = function() {
                 attrs: { type: "primary" },
                 on: {
                   click: function($event) {
-                    _vm.showCreatePanel()
+                    _vm.showImportPanel()
                   }
                 }
               },
@@ -66523,6 +66579,86 @@ var render = function() {
                 }
               },
               [_vm._v("Create")]
+            )
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "ou-panel",
+          {
+            attrs: { title: "Import Contact", size: "medium" },
+            model: {
+              value: _vm.importPanel,
+              callback: function($$v) {
+                _vm.importPanel = $$v
+              },
+              expression: "importPanel"
+            }
+          },
+          [
+            _c("label", [_vm._v("Upload File (excel,csv)")]),
+            _vm._v(" "),
+            _c("input", {
+              ref: "contact_file",
+              attrs: { type: "file", name: "contact_file", required: "" },
+              on: {
+                change: function($event) {
+                  _vm.handleFileUpload()
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("label", [_vm._v("Group")]),
+            _vm._v(" "),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.import_group_id,
+                    expression: "import_group_id"
+                  }
+                ],
+                staticClass: "form-control",
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.import_group_id = $event.target.multiple
+                      ? $$selectedVal
+                      : $$selectedVal[0]
+                  }
+                }
+              },
+              _vm._l(_vm.groups, function(group) {
+                return _c("option", { domProps: { value: group.id } }, [
+                  _vm._v(_vm._s(group.name))
+                ])
+              })
+            ),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _c(
+              "ou-button",
+              {
+                attrs: { type: "primary" },
+                on: {
+                  click: function($event) {
+                    _vm.importContact()
+                  }
+                }
+              },
+              [_vm._v("Import")]
             )
           ],
           1
@@ -67395,7 +67531,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			createPanel: false,
 			editPanel: false,
 			smsTemplate: false,
-			createSinglePanel: false
+			createSinglePanel: false,
+			minDate: new Date(Date.now() - 86400000)
 		};
 	},
 
@@ -67744,10 +67881,10 @@ var render = function() {
             _vm._v(" "),
             _c("vue-ctk-date-time-picker", {
               attrs: {
-                "minute-interval": -10,
+                "min-date": _vm.minDate,
                 color: "#005a9e",
                 "enable-button-validate": "",
-                format: "YYYY-MM-DD H:MM:SS"
+                format: "YYYY-MM-DD HH:mm:ss"
               },
               model: {
                 value: _vm.send_date,

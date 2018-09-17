@@ -24,4 +24,5 @@ Route::resource('outboxes', 'OutboxController');
 Route::post('outboxes/single', 'OutboxController@single');
 Route::resource('groups', 'GroupController');
 Route::resource('bulks', 'BulkController');
+Route::post('contacts/import', 'ContactController@import');
 

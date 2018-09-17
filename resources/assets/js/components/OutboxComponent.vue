@@ -81,7 +81,7 @@
 
 
                 	<label>Date & Time</label>
-                	<vue-ctk-date-time-picker v-model="send_date"  :minute-interval="-10" color="#005a9e" enable-button-validate format="YYYY-MM-DD H:MM:SS"
+                	<vue-ctk-date-time-picker v-model="send_date" :min-date="minDate"  color="#005a9e" enable-button-validate format="YYYY-MM-DD HH:mm:ss"
             ></vue-ctk-date-time-picker>
 
 
@@ -187,7 +187,8 @@
 				createPanel: false,
 				editPanel: false,
 				smsTemplate: false,
-				createSinglePanel: false
+				createSinglePanel: false,
+				minDate: new Date(Date.now() - 86400000)
 			}
 		},
 
