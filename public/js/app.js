@@ -69077,13 +69077,6 @@ var render = function() {
                   click: function($event) {
                     _vm.createSingleOutbox()
                   }
-                },
-                model: {
-                  value: _vm.createButton,
-                  callback: function($$v) {
-                    _vm.createButton = $$v
-                  },
-                  expression: "createButton"
                 }
               },
               [_vm._v("Create")]

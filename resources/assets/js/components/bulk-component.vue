@@ -62,7 +62,7 @@
 
                 	<br>
 
-                	<ou-button type='primary' @click="createSingleOutbox()" v-model="createButton">Create</ou-button>
+                	<ou-button type='primary' @click="createSingleOutbox()" >Create</ou-button>
 
                 	
 
