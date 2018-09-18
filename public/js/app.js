@@ -69090,7 +69090,7 @@ var render = function() {
                               }
                             },
                             [
-                              _vm._v(_vm._s(bulk.group.name)),
+                              _vm._v(_vm._s(bulk.group_id)),
                               _c("br"),
                               _vm._v(_vm._s(bulk.send_date) + " "),
                               _c("br"),
