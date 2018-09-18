@@ -17,7 +17,14 @@
                 	<ou-pivot type='tabs'>
   						<ou-pivot-item label='Bulk Outbox'>
 
+  							<div class="row">
+                    			<div class="col-md-2 conts" v-for="bulk in bulks" style="padding:10px" >
 
+                    				<ou-button type='compound' :description='bulk.text' @click="showEditPanel(bulk)">{{bulk.group.name}}<br/>{{bulk.send_date}} <br>{{bulk.send_time}}</ou-button>
+
+                    
+								</div>
+							</div>
 
   							
   						</ou-pivot-item>
@@ -78,6 +85,55 @@
 
   				</ou-panel>
 
+
+
+  				<ou-panel title='Create Outbox' size='lg' v-model='createPanel'>
+    				
+
+                	
+
+
+                	<ou-text-field type='multiline' v-model='sms' label='Text' />
+                	 <ou-link href='#' @click="showSMSTemplates()">* import From template</ou-link>
+                	 <br><br>
+
+
+                	<label>Date & Time</label>
+                	<vue-ctk-date-time-picker v-model="send_date" min-date="minDate"  color="#005a9e" enable-button-validate format="YYYY-MM-DD HH:mm:ss"
+            ></vue-ctk-date-time-picker>
+
+
+            <label>Group</label>
+                	
+                	<select v-model="group_id" class="form-control">
+                		
+                		<option v-for="group in groups" :value="group.id">{{group.name}}</option>
+                	
+                	</select>
+                	
+
+                	
+
+                	
+
+                	<br>
+
+                	<ou-button type='primary' @click="createOutbox()">Create</ou-button>
+
+
+
+                	<ou-dialog type='multiline' title='SMS Templates' v-model='smsTemplate'>
+    				
+    					<span v-for="text in texts" style="padding:5px;">
+    						<ou-button type='compound' @click='setText(text)' :description='text.text'></ou-button>
+
+    					</span>
+
+    
+  					</ou-dialog>
+
+  				</ou-panel>
+
             </div>
 		
 
@@ -92,6 +148,7 @@
 			this.getTexts()
 			this.getGroups()
 			this.getOutboxes()
+			this.getBulks()
 
 		},
 
@@ -107,7 +164,11 @@
 				createPanel: false,
 				createSinglePanel: false,
 				smsTemplate: false,
-				outboxes: []
+				outboxes: [],
+				send_date: '',
+				minDate: new Date(Date.now() - 86400000),
+				group_id: '',
+				bulk: {}
 			}
 		},
 
@@ -131,6 +192,19 @@
 				axios.get('/api/outboxes').then(response => {
 
 					this.outboxes = response.data
+				}).catch(error => {
+
+					alert(error)
+				})
+
+			},
+
+
+			getBulks(){
+
+				axios.get('/api/bulks').then(response => {
+
+					this.bulks = response.data
 				}).catch(error => {
 
 					alert(error)
@@ -168,6 +242,23 @@
 				this.smsTemplate = false
 			},
 
+
+			createOutbox(){
+
+				let data = {
+
+					text: this.sms,
+					send_date: this.send_date,
+					group_id: this.group_id
+				}
+
+				axios.post('/api/bulks', data).then(response => {
+					this.getBulks()
+					this.createPanel = false
+				}).catch(error => {
+					alert(error)
+				})
+			},
 
 
 

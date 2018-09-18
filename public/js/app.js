@@ -68824,6 +68824,62 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -68832,6 +68888,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		this.getTexts();
 		this.getGroups();
 		this.getOutboxes();
+		this.getBulks();
 	},
 	data: function data() {
 
@@ -68845,7 +68902,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			createPanel: false,
 			createSinglePanel: false,
 			smsTemplate: false,
-			outboxes: []
+			outboxes: [],
+			send_date: '',
+			minDate: new Date(Date.now() - 86400000),
+			group_id: '',
+			bulk: {}
 		};
 	},
 
@@ -68873,12 +68934,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				alert(error);
 			});
 		},
-		getGroups: function getGroups() {
+		getBulks: function getBulks() {
 			var _this3 = this;
+
+			axios.get('/api/bulks').then(function (response) {
+
+				_this3.bulks = response.data;
+			}).catch(function (error) {
+
+				alert(error);
+			});
+		},
+		getGroups: function getGroups() {
+			var _this4 = this;
 
 			axios.get('/api/groups').then(function (response) {
 
-				_this3.groups = response.data;
+				_this4.groups = response.data;
 			}).catch(function (error) {
 
 				alert(error);
@@ -68895,8 +68967,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			this.sms = text.text;
 			this.smsTemplate = false;
 		},
+		createOutbox: function createOutbox() {
+			var _this5 = this;
+
+			var data = {
+
+				text: this.sms,
+				send_date: this.send_date,
+				group_id: this.group_id
+			};
+
+			axios.post('/api/bulks', data).then(function (response) {
+				_this5.getBulks();
+				_this5.createPanel = false;
+			}).catch(function (error) {
+				alert(error);
+			});
+		},
 		createSingleOutbox: function createSingleOutbox() {
-			var _this4 = this;
+			var _this6 = this;
 
 			var data = {
 
@@ -68909,7 +68998,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				//this.getOutboxes()
 
 				alert('sms has been successfully sent');
-				_this4.createSinglePanel = false;
+				_this6.createSinglePanel = false;
 			}).catch(function (error) {
 				alert(error);
 			});
@@ -68971,7 +69060,45 @@ var render = function() {
               "ou-pivot",
               { attrs: { type: "tabs" } },
               [
-                _c("ou-pivot-item", { attrs: { label: "Bulk Outbox" } }),
+                _c("ou-pivot-item", { attrs: { label: "Bulk Outbox" } }, [
+                  _c(
+                    "div",
+                    { staticClass: "row" },
+                    _vm._l(_vm.bulks, function(bulk) {
+                      return _c(
+                        "div",
+                        {
+                          staticClass: "col-md-2 conts",
+                          staticStyle: { padding: "10px" }
+                        },
+                        [
+                          _c(
+                            "ou-button",
+                            {
+                              attrs: {
+                                type: "compound",
+                                description: bulk.text
+                              },
+                              on: {
+                                click: function($event) {
+                                  _vm.showEditPanel(bulk)
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(_vm._s(bulk.group.name)),
+                              _c("br"),
+                              _vm._v(_vm._s(bulk.send_date) + " "),
+                              _c("br"),
+                              _vm._v(_vm._s(bulk.send_time))
+                            ]
+                          )
+                        ],
+                        1
+                      )
+                    })
+                  )
+                ]),
                 _vm._v(" "),
                 _c("ou-pivot-item", { attrs: { label: "Single Outbox" } }, [
                   _c(
@@ -69079,6 +69206,150 @@ var render = function() {
                 on: {
                   click: function($event) {
                     _vm.createSingleOutbox()
+                  }
+                }
+              },
+              [_vm._v("Create")]
+            ),
+            _vm._v(" "),
+            _c(
+              "ou-dialog",
+              {
+                attrs: { type: "multiline", title: "SMS Templates" },
+                model: {
+                  value: _vm.smsTemplate,
+                  callback: function($$v) {
+                    _vm.smsTemplate = $$v
+                  },
+                  expression: "smsTemplate"
+                }
+              },
+              _vm._l(_vm.texts, function(text) {
+                return _c(
+                  "span",
+                  { staticStyle: { padding: "5px" } },
+                  [
+                    _c("ou-button", {
+                      attrs: { type: "compound", description: text.text },
+                      on: {
+                        click: function($event) {
+                          _vm.setText(text)
+                        }
+                      }
+                    })
+                  ],
+                  1
+                )
+              })
+            )
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "ou-panel",
+          {
+            attrs: { title: "Create Outbox", size: "lg" },
+            model: {
+              value: _vm.createPanel,
+              callback: function($$v) {
+                _vm.createPanel = $$v
+              },
+              expression: "createPanel"
+            }
+          },
+          [
+            _c("ou-text-field", {
+              attrs: { type: "multiline", label: "Text" },
+              model: {
+                value: _vm.sms,
+                callback: function($$v) {
+                  _vm.sms = $$v
+                },
+                expression: "sms"
+              }
+            }),
+            _vm._v(" "),
+            _c(
+              "ou-link",
+              {
+                attrs: { href: "#" },
+                on: {
+                  click: function($event) {
+                    _vm.showSMSTemplates()
+                  }
+                }
+              },
+              [_vm._v("* import From template")]
+            ),
+            _vm._v(" "),
+            _c("br"),
+            _c("br"),
+            _vm._v(" "),
+            _c("label", [_vm._v("Date & Time")]),
+            _vm._v(" "),
+            _c("vue-ctk-date-time-picker", {
+              attrs: {
+                "min-date": "minDate",
+                color: "#005a9e",
+                "enable-button-validate": "",
+                format: "YYYY-MM-DD HH:mm:ss"
+              },
+              model: {
+                value: _vm.send_date,
+                callback: function($$v) {
+                  _vm.send_date = $$v
+                },
+                expression: "send_date"
+              }
+            }),
+            _vm._v(" "),
+            _c("label", [_vm._v("Group")]),
+            _vm._v(" "),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.group_id,
+                    expression: "group_id"
+                  }
+                ],
+                staticClass: "form-control",
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.group_id = $event.target.multiple
+                      ? $$selectedVal
+                      : $$selectedVal[0]
+                  }
+                }
+              },
+              _vm._l(_vm.groups, function(group) {
+                return _c("option", { domProps: { value: group.id } }, [
+                  _vm._v(_vm._s(group.name))
+                ])
+              })
+            ),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _c(
+              "ou-button",
+              {
+                attrs: { type: "primary" },
+                on: {
+                  click: function($event) {
+                    _vm.createOutbox()
                   }
                 }
               },
