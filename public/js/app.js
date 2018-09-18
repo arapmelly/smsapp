@@ -68800,6 +68800,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -68807,6 +68831,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 		this.getTexts();
 		this.getGroups();
+		this.getOutboxes();
 	},
 	data: function data() {
 
@@ -68820,8 +68845,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			createPanel: false,
 			createSinglePanel: false,
 			smsTemplate: false,
-			createSpinner: false,
-			createButton: true
+			outboxes: []
 		};
 	},
 
@@ -68838,12 +68862,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				alert(error);
 			});
 		},
-		getGroups: function getGroups() {
+		getOutboxes: function getOutboxes() {
 			var _this2 = this;
+
+			axios.get('/api/outboxes').then(function (response) {
+
+				_this2.outboxes = response.data;
+			}).catch(function (error) {
+
+				alert(error);
+			});
+		},
+		getGroups: function getGroups() {
+			var _this3 = this;
 
 			axios.get('/api/groups').then(function (response) {
 
-				_this2.groups = response.data;
+				_this3.groups = response.data;
 			}).catch(function (error) {
 
 				alert(error);
@@ -68861,7 +68896,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			this.smsTemplate = false;
 		},
 		createSingleOutbox: function createSingleOutbox() {
-			var _this3 = this;
+			var _this4 = this;
 
 			var data = {
 
@@ -68872,10 +68907,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			axios.post('/api/outboxes/single', data).then(function (response) {
 				//this.getOutboxes()
-				_this3.createButton = false;
-				_this3.createSpinner = true;
+
 				alert('sms has been successfully sent');
-				_this3.createSinglePanel = false;
+				_this4.createSinglePanel = false;
 			}).catch(function (error) {
 				alert(error);
 			});
@@ -68929,7 +68963,58 @@ var render = function() {
           1
         ),
         _vm._v(" "),
-        _c("div", { staticClass: "card-body" }),
+        _c(
+          "div",
+          { staticClass: "card-body" },
+          [
+            _c(
+              "ou-pivot",
+              { attrs: { type: "tabs" } },
+              [
+                _c("ou-pivot-item", { attrs: { label: "Bulk Outbox" } }),
+                _vm._v(" "),
+                _c("ou-pivot-item", { attrs: { label: "Single Outbox" } }, [
+                  _c(
+                    "div",
+                    { staticClass: "row" },
+                    _vm._l(_vm.outboxes, function(outbox) {
+                      return _c(
+                        "div",
+                        { staticClass: "col-md-2 conts" },
+                        [
+                          _c(
+                            "ou-button",
+                            {
+                              attrs: {
+                                type: "compound",
+                                description: outbox.text
+                              },
+                              on: {
+                                click: function($event) {
+                                  _vm.showEditPanel(outbox)
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(_vm._s(outbox.group.name)),
+                              _c("br"),
+                              _vm._v(_vm._s(outbox.send_date) + " "),
+                              _c("br"),
+                              _vm._v(_vm._s(outbox.send_time))
+                            ]
+                          )
+                        ],
+                        1
+                      )
+                    })
+                  )
+                ])
+              ],
+              1
+            )
+          ],
+          1
+        ),
         _vm._v(" "),
         _c(
           "ou-panel",
@@ -69003,17 +69088,6 @@ var render = function() {
               },
               [_vm._v("Create")]
             ),
-            _vm._v(" "),
-            _c("ou-spinner", {
-              attrs: { label: "Loading...", type: "large" },
-              model: {
-                value: _vm.createSpinner,
-                callback: function($$v) {
-                  _vm.createSpinner = $$v
-                },
-                expression: "createSpinner"
-              }
-            }),
             _vm._v(" "),
             _c(
               "ou-dialog",

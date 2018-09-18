@@ -14,6 +14,30 @@
 
                 <div class="card-body">
 
+                	<ou-pivot type='tabs'>
+  						<ou-pivot-item label='Bulk Outbox'>
+
+
+
+  							
+  						</ou-pivot-item>
+  						<ou-pivot-item label='Single Outbox'>
+
+
+  							<div class="row">
+                    			<div class="col-md-2 conts" v-for="outbox in outboxes" >
+
+                    				<ou-button type='compound' :description='outbox.text' @click="showEditPanel(outbox)">{{outbox.group.name}}<br/>{{outbox.send_date}} <br>{{outbox.send_time}}</ou-button>
+
+                    
+								</div>
+							</div>
+
+  							
+  						</ou-pivot-item>
+  						
+					</ou-pivot>
+
 
                 </div>
 
@@ -40,7 +64,7 @@
 
                 	<ou-button type='primary' @click="createSingleOutbox()" v-model="createButton">Create</ou-button>
 
-                	<ou-spinner label='Loading...' type='large' v-model="createSpinner" />
+                	
 
                 	<ou-dialog type='multiline' title='SMS Templates' v-model='smsTemplate'>
     				
@@ -67,6 +91,7 @@
 
 			this.getTexts()
 			this.getGroups()
+			this.getOutboxes()
 
 		},
 
@@ -82,8 +107,7 @@
 				createPanel: false,
 				createSinglePanel: false,
 				smsTemplate: false,
-				createSpinner: false,
-				createButton: true
+				outboxes: []
 			}
 		},
 
@@ -94,6 +118,19 @@
 				axios.get('/api/texts').then(response => {
 
 					this.texts = response.data
+				}).catch(error => {
+
+					alert(error)
+				})
+
+			},
+
+
+			getOutboxes(){
+
+				axios.get('/api/outboxes').then(response => {
+
+					this.outboxes = response.data
 				}).catch(error => {
 
 					alert(error)
@@ -145,8 +182,7 @@
 
 				axios.post('/api/outboxes/single', data).then(response => {
 					//this.getOutboxes()
-					this.createButton = false
-					this.createSpinner = true
+					
 					alert('sms has been successfully sent');
 					this.createSinglePanel = false
 					
