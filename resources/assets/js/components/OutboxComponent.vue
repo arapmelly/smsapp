@@ -211,7 +211,7 @@
 				axios.get('/api/groups').then(response => {
 
 					this.groups = response.data
-					console.log(response)
+					
 
 				}).catch(error => {
 
@@ -223,6 +223,7 @@
 
 				axios.get('/api/bulks').then(response => {
 
+					console.log(response.data)
 					this.outboxes = response.data
 				}).catch(error => {
 
@@ -258,6 +259,8 @@
 
 			showCreatePanel(){
 
+				alert('we here')
+
 				this.createPanel = true
 			},
 
@@ -268,6 +271,7 @@
 
 			showCreateSinglePanel(){
 
+				alert('we here')
 				this.createSinglePanel = true
 			},
 
