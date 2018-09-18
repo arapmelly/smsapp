@@ -50,7 +50,7 @@ class ContactController extends Controller
         $request->validate([
             'f_name'=>'required',
             'l_name'=>'required',
-            'phone'=>'required | unique:contacts',
+            'phone'=>'required',
             'group_id'=>'required'
         ]);
 
