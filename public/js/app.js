@@ -68980,7 +68980,10 @@ var render = function() {
                     _vm._l(_vm.outboxes, function(outbox) {
                       return _c(
                         "div",
-                        { staticClass: "col-md-2 conts" },
+                        {
+                          staticClass: "col-md-2 conts",
+                          staticStyle: { padding: "10px" }
+                        },
                         [
                           _c(
                             "ou-button",
@@ -68996,7 +68999,7 @@ var render = function() {
                               }
                             },
                             [
-                              _vm._v(_vm._s(outbox.group.name)),
+                              _vm._v(_vm._s(outbox.contact)),
                               _c("br"),
                               _vm._v(_vm._s(outbox.send_date) + " "),
                               _c("br"),

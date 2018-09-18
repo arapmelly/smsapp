@@ -25,9 +25,9 @@
 
 
   							<div class="row">
-                    			<div class="col-md-2 conts" v-for="outbox in outboxes" >
+                    			<div class="col-md-2 conts" v-for="outbox in outboxes" style="padding:10px" >
 
-                    				<ou-button type='compound' :description='outbox.text' @click="showEditPanel(outbox)">{{outbox.group.name}}<br/>{{outbox.send_date}} <br>{{outbox.send_time}}</ou-button>
+                    				<ou-button type='compound' :description='outbox.text' @click="showEditPanel(outbox)">{{outbox.contact}}<br/>{{outbox.send_date}} <br>{{outbox.send_time}}</ou-button>
 
                     
 								</div>
