@@ -68212,17 +68212,6 @@ var render = function() {
             _c("br"),
             _c("br"),
             _vm._v(" "),
-            _c("ou-text-field", {
-              attrs: { label: "Phone Number" },
-              model: {
-                value: _vm.contact,
-                callback: function($$v) {
-                  _vm.contact = $$v
-                },
-                expression: "contact"
-              }
-            }),
-            _vm._v(" "),
             _c("br"),
             _vm._v(" "),
             _c(
@@ -68316,7 +68305,7 @@ var render = function() {
             _vm._v(" "),
             _c("vue-ctk-date-time-picker", {
               attrs: {
-                "min-date": _vm.minDate,
+                "min-date": "minDate",
                 color: "#005a9e",
                 "enable-button-validate": "",
                 format: "YYYY-MM-DD HH:mm:ss"

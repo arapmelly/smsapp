@@ -40,7 +40,7 @@
                 	 <ou-link href='#' @click="showSMSTemplates()">* import From template</ou-link>
                 	 <br><br>
 
-                	 <ou-text-field v-model='contact' label='Phone Number' />
+                	<!--  <ou-text-field v-model='contact' label='Phone Number' /> -->
                 	
                 	
 
@@ -81,7 +81,7 @@
 
 
                 	<label>Date & Time</label>
-                	<vue-ctk-date-time-picker v-model="send_date" :min-date="minDate"  color="#005a9e" enable-button-validate format="YYYY-MM-DD HH:mm:ss"
+                	<vue-ctk-date-time-picker v-model="send_date" min-date="minDate"  color="#005a9e" enable-button-validate format="YYYY-MM-DD HH:mm:ss"
             ></vue-ctk-date-time-picker>
 
 
