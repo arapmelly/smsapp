@@ -31511,6 +31511,7 @@ Vue.component('contact-component', __webpack_require__(243));
 Vue.component('text-component', __webpack_require__(249));
 Vue.component('group-component', __webpack_require__(254));
 Vue.component('outbox-component', __webpack_require__(259));
+Vue.component('bulk-component', __webpack_require__(269));
 Vue.component('main-component', __webpack_require__(264));
 
 var app = new Vue({
@@ -68683,6 +68684,362 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 268 */,
+/* 269 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(5)
+/* script */
+var __vue_script__ = __webpack_require__(270)
+/* template */
+var __vue_template__ = __webpack_require__(271)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/bulk-component.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-143fdad9", Component.options)
+  } else {
+    hotAPI.reload("data-v-143fdad9", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 270 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	mounted: function mounted() {
+
+		this.getTexts();
+		this.getGroups();
+	},
+	data: function data() {
+
+		return {
+
+			texts: [],
+			groups: [],
+			bulks: [],
+			phone: '',
+			sms: '',
+			createPanel: false,
+			createSinglePanel: false,
+			smsTemplate: false
+		};
+	},
+
+
+	methods: {
+		getTexts: function getTexts() {
+			var _this = this;
+
+			axios.get('/api/texts').then(function (response) {
+
+				_this.texts = response.data;
+			}).catch(function (error) {
+
+				alert(error);
+			});
+		},
+		getGroups: function getGroups() {
+			var _this2 = this;
+
+			axios.get('/api/groups').then(function (response) {
+
+				_this2.groups = response.data;
+			}).catch(function (error) {
+
+				alert(error);
+			});
+		},
+		showCreateSinglePanel: function showCreateSinglePanel() {
+
+			this.createSinglePanel = true;
+		},
+		showSMSTemplates: function showSMSTemplates() {
+			this.smsTemplate = true;
+		},
+		setText: function setText(text) {
+			this.sms = text.text;
+			this.smsTemplate = false;
+		},
+		createSingleOutbox: function createSingleOutbox() {
+			var _this3 = this;
+
+			var data = {
+
+				text: this.sms,
+				contact: this.phone
+
+			};
+
+			axios.post('/api/outboxes/single', data).then(function (response) {
+				//this.getOutboxes()
+				_this3.createSinglePanel = false;
+				alert('sms has been successfully sent');
+			}).catch(function (error) {
+				alert(error);
+			});
+		}
+	}
+});
+
+/***/ }),
+/* 271 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c(
+      "div",
+      { staticClass: "card" },
+      [
+        _c(
+          "div",
+          { staticClass: "card-header" },
+          [
+            _c(
+              "ou-button",
+              {
+                attrs: { type: "primary" },
+                on: {
+                  click: function($event) {
+                    _vm.showCreatePanel()
+                  }
+                }
+              },
+              [_vm._v("Bulk")]
+            ),
+            _vm._v(" "),
+            _c(
+              "ou-button",
+              {
+                attrs: { type: "primary" },
+                on: {
+                  click: function($event) {
+                    _vm.showCreateSinglePanel()
+                  }
+                }
+              },
+              [_vm._v("Single")]
+            )
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-body" }),
+        _vm._v(" "),
+        _c(
+          "ou-panel",
+          {
+            attrs: { title: "Create Outbox", size: "lg" },
+            model: {
+              value: _vm.createSinglePanel,
+              callback: function($$v) {
+                _vm.createSinglePanel = $$v
+              },
+              expression: "createSinglePanel"
+            }
+          },
+          [
+            _c("ou-text-field", {
+              attrs: { type: "multiline", label: "Text" },
+              model: {
+                value: _vm.sms,
+                callback: function($$v) {
+                  _vm.sms = $$v
+                },
+                expression: "sms"
+              }
+            }),
+            _vm._v(" "),
+            _c(
+              "ou-link",
+              {
+                attrs: { href: "#" },
+                on: {
+                  click: function($event) {
+                    _vm.showSMSTemplates()
+                  }
+                }
+              },
+              [_vm._v("* import From template")]
+            ),
+            _vm._v(" "),
+            _c("br"),
+            _c("br"),
+            _vm._v(" "),
+            _c("ou-text-field", {
+              attrs: { label: "Phone Number" },
+              model: {
+                value: _vm.phone,
+                callback: function($$v) {
+                  _vm.phone = $$v
+                },
+                expression: "phone"
+              }
+            }),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _c(
+              "ou-button",
+              {
+                attrs: { type: "primary" },
+                on: {
+                  click: function($event) {
+                    _vm.createSingleOutbox()
+                  }
+                }
+              },
+              [_vm._v("Create")]
+            ),
+            _vm._v(" "),
+            _c(
+              "ou-dialog",
+              {
+                attrs: { type: "multiline", title: "SMS Templates" },
+                model: {
+                  value: _vm.smsTemplate,
+                  callback: function($$v) {
+                    _vm.smsTemplate = $$v
+                  },
+                  expression: "smsTemplate"
+                }
+              },
+              _vm._l(_vm.texts, function(text) {
+                return _c(
+                  "span",
+                  { staticStyle: { padding: "5px" } },
+                  [
+                    _c("ou-button", {
+                      attrs: { type: "compound", description: text.text },
+                      on: {
+                        click: function($event) {
+                          _vm.setText(text)
+                        }
+                      }
+                    })
+                  ],
+                  1
+                )
+              })
+            )
+          ],
+          1
+        )
+      ],
+      1
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-143fdad9", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

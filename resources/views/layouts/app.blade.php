@@ -45,7 +45,7 @@
                         
 
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('admindash', ['component' => 'outbox-component']) }}">{{ __('OUTBOX') }}</a>
+                                <a class="nav-link" href="{{ route('admindash', ['component' => 'bulk-component']) }}">{{ __('OUTBOX') }}</a>
                             </li>
 
                              <li class="nav-item">

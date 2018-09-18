@@ -36,6 +36,7 @@ Vue.component('contact-component', require('./components/ContactComponent.vue'))
 Vue.component('text-component', require('./components/TextComponent.vue'));
 Vue.component('group-component', require('./components/GroupComponent.vue'));
 Vue.component('outbox-component', require('./components/OutboxComponent.vue'));
+Vue.component('bulk-component', require('./components/bulk-component.vue'));
 Vue.component('main-component', require('./components/MainComponent.vue'));
 
 const app = new Vue({
