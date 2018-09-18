@@ -224,7 +224,7 @@
 
 				axios.get('/api/bulks').then(response => {
 
-					console.log(response.data)
+					
 					this.outboxes = response.data
 				}).catch(error => {
 

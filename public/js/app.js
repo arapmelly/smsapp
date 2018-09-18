@@ -67998,7 +67998,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			axios.get('/api/bulks').then(function (response) {
 
-				console.log(response.data);
 				_this3.outboxes = response.data;
 			}).catch(function (error) {
 
