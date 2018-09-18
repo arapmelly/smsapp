@@ -68819,7 +68819,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			sms: '',
 			createPanel: false,
 			createSinglePanel: false,
-			smsTemplate: false
+			smsTemplate: false,
+			createSpinner: false,
+			createButton: true
 		};
 	},
 
@@ -68870,8 +68872,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			axios.post('/api/outboxes/single', data).then(function (response) {
 				//this.getOutboxes()
-				_this3.createSinglePanel = false;
+				_this3.createButton = false;
+				_this3.createSpinner = true;
 				alert('sms has been successfully sent');
+				_this3.createSinglePanel = false;
 			}).catch(function (error) {
 				alert(error);
 			});
@@ -68988,10 +68992,28 @@ var render = function() {
                   click: function($event) {
                     _vm.createSingleOutbox()
                   }
+                },
+                model: {
+                  value: _vm.createButton,
+                  callback: function($$v) {
+                    _vm.createButton = $$v
+                  },
+                  expression: "createButton"
                 }
               },
               [_vm._v("Create")]
             ),
+            _vm._v(" "),
+            _c("ou-spinner", {
+              attrs: { label: "Loading...", type: "large" },
+              model: {
+                value: _vm.createSpinner,
+                callback: function($$v) {
+                  _vm.createSpinner = $$v
+                },
+                expression: "createSpinner"
+              }
+            }),
             _vm._v(" "),
             _c(
               "ou-dialog",

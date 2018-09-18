@@ -38,9 +38,9 @@
 
                 	<br>
 
-                	<ou-button type='primary' @click="createSingleOutbox()">Create</ou-button>
+                	<ou-button type='primary' @click="createSingleOutbox()" v-model="createButton">Create</ou-button>
 
-
+                	<ou-spinner label='Loading...' type='large' v-model="createSpinner" />
 
                 	<ou-dialog type='multiline' title='SMS Templates' v-model='smsTemplate'>
     				
@@ -81,7 +81,9 @@
 				sms: '',
 				createPanel: false,
 				createSinglePanel: false,
-				smsTemplate: false
+				smsTemplate: false,
+				createSpinner: false,
+				createButton: true
 			}
 		},
 
@@ -143,8 +145,11 @@
 
 				axios.post('/api/outboxes/single', data).then(response => {
 					//this.getOutboxes()
-					this.createSinglePanel = false
+					this.createButton = false
+					this.createSpinner = true
 					alert('sms has been successfully sent');
+					this.createSinglePanel = false
+					
 				}).catch(error => {
 					alert(error)
 				})
