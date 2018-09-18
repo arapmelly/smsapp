@@ -68880,6 +68880,41 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -68906,7 +68941,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			send_date: '',
 			minDate: new Date(Date.now() - 86400000),
 			group_id: '',
-			bulk: {}
+			bulk: {},
+			editPanel: false
 		};
 	},
 
@@ -68960,6 +68996,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			this.createPanel = true;
 		},
+		showEditPanel: function showEditPanel(bulk) {
+			this.bulk = bulk;
+			this.editPanel = true;
+		},
 		showCreateSinglePanel: function showCreateSinglePanel() {
 
 			this.createSinglePanel = true;
@@ -69003,6 +69043,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 				alert('sms has been successfully sent');
 				_this6.createSinglePanel = false;
+			}).catch(function (error) {
+				alert(error);
+			});
+		},
+		deleteBulk: function deleteBulk(id) {
+			var _this7 = this;
+
+			axios.delete('/api/bulks/' + id).then(function (response) {
+				_this7.getBulks();
+				_this7.editPanel = false;
 			}).catch(function (error) {
 				alert(error);
 			});
@@ -69389,6 +69439,124 @@ var render = function() {
                   1
                 )
               })
+            )
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "ou-panel",
+          {
+            attrs: { title: "Manage Bulk", size: "medium" },
+            model: {
+              value: _vm.editPanel,
+              callback: function($$v) {
+                _vm.editPanel = $$v
+              },
+              expression: "editPanel"
+            }
+          },
+          [
+            _c(
+              "ou-button",
+              {
+                attrs: { type: "primary" },
+                on: {
+                  click: function($event) {
+                    _vm.deleteBulk(_vm.bulk.id)
+                  }
+                }
+              },
+              [_vm._v("Delete")]
+            ),
+            _vm._v(" "),
+            _c("hr"),
+            _vm._v(" "),
+            _c("ou-text-field", {
+              attrs: { type: "multiline", label: "Text" },
+              model: {
+                value: _vm.bulk.text,
+                callback: function($$v) {
+                  _vm.$set(_vm.bulk, "text", $$v)
+                },
+                expression: "bulk.text"
+              }
+            }),
+            _vm._v(" "),
+            _c("ou-text-field", {
+              attrs: { label: "Send Date" },
+              model: {
+                value: _vm.bulk.send_date,
+                callback: function($$v) {
+                  _vm.$set(_vm.bulk, "send_date", $$v)
+                },
+                expression: "bulk.send_date"
+              }
+            }),
+            _vm._v(" "),
+            _c("ou-text-field", {
+              attrs: { label: "Send Time" },
+              model: {
+                value: _vm.bulk.send_time,
+                callback: function($$v) {
+                  _vm.$set(_vm.bulk, "send_time", $$v)
+                },
+                expression: "bulk.send_time"
+              }
+            }),
+            _vm._v(" "),
+            _c("label", [_vm._v("Group")]),
+            _vm._v(" "),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.bulk.group_id,
+                    expression: "bulk.group_id"
+                  }
+                ],
+                staticClass: "form-control",
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.$set(
+                      _vm.bulk,
+                      "group_id",
+                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                    )
+                  }
+                }
+              },
+              _vm._l(_vm.groups, function(group) {
+                return _c("option", { domProps: { value: group.id } }, [
+                  _vm._v(_vm._s(group.name))
+                ])
+              })
+            ),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _c(
+              "ou-button",
+              {
+                attrs: { type: "primary" },
+                on: {
+                  click: function($event) {
+                    _vm.updateBulk(_vm.bulk.id)
+                  }
+                }
+              },
+              [_vm._v("Update")]
             )
           ],
           1

@@ -134,6 +134,41 @@
 
   				</ou-panel>
 
+
+
+  				<ou-panel title='Manage Bulk' size='medium' v-model='editPanel'>
+
+
+    				
+  				 	<ou-button type='primary' @click="deleteBulk(bulk.id)">Delete</ou-button>
+
+  				 	
+
+  				 	<hr>
+                	
+
+                	<ou-text-field type='multiline' v-model='bulk.text' label='Text' />
+
+                	<ou-text-field v-model='bulk.send_date' label='Send Date' />
+
+                	<ou-text-field v-model='bulk.send_time' label='Send Time' />
+
+                	<label>Group</label>
+                	
+                	<select v-model="bulk.group_id" class="form-control">
+                		
+                		<option v-for="group in groups" :value="group.id">{{group.name}}</option>
+                	
+                	</select>
+                	
+
+                	<br>
+
+                	<ou-button type='primary' @click="updateBulk(bulk.id)">Update</ou-button>
+
+  				</ou-panel>
+
+
             </div>
 		
 
@@ -168,7 +203,8 @@
 				send_date: '',
 				minDate: new Date(Date.now() - 86400000),
 				group_id: '',
-				bulk: {}
+				bulk: {},
+				editPanel: false
 			}
 		},
 
@@ -234,6 +270,12 @@
 			},
 
 
+			showEditPanel(bulk){
+				this.bulk = bulk
+				this.editPanel = true
+			},
+
+
 			showCreateSinglePanel(){
 
 				this.createSinglePanel = true;
@@ -288,6 +330,16 @@
 					alert(error)
 				})
 
+			},
+
+			deleteBulk(id){
+				
+				axios.delete('/api/bulks/'+id).then(response => {
+					this.getBulks()
+					this.editPanel = false
+				}).catch(error => {
+					alert(error)
+				})
 			}
 		}
 	}
