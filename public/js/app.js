@@ -69294,7 +69294,7 @@ var render = function() {
             _vm._v(" "),
             _c("vue-ctk-date-time-picker", {
               attrs: {
-                "min-date": "minDate",
+                "min-date": _vm.minDate,
                 color: "#005a9e",
                 "enable-button-validate": "",
                 format: "YYYY-MM-DD HH:mm:ss"
