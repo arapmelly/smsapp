@@ -67964,7 +67964,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			editPanel: false,
 			smsTemplate: false,
 			createSinglePanel: false,
-			minDate: ''
+			minDate: '',
+			contact: ''
 		};
 	},
 

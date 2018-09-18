@@ -189,7 +189,8 @@
 				editPanel: false,
 				smsTemplate: false,
 				createSinglePanel: false,
-				minDate: ''
+				minDate: '',
+				contact: ''
 			}
 		},
 
