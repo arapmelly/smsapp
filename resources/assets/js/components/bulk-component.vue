@@ -226,6 +226,13 @@
 				})
 			},
 
+			showCreatePanel(){
+
+				
+
+				this.createPanel = true
+			},
+
 
 			showCreateSinglePanel(){
 

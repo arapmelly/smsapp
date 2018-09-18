@@ -68956,6 +68956,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				alert(error);
 			});
 		},
+		showCreatePanel: function showCreatePanel() {
+
+			this.createPanel = true;
+		},
 		showCreateSinglePanel: function showCreateSinglePanel() {
 
 			this.createSinglePanel = true;
