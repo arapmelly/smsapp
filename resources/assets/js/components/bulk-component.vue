@@ -20,7 +20,7 @@
   							<div class="row">
                     			<div class="col-md-2 conts" v-for="bulk in bulks" style="padding:10px" >
 
-                    				<ou-button type='compound' :description='bulk.text' @click="showEditPanel(bulk)">{{bulk.group}}<br/>{{bulk.send_date}} <br>{{bulk.send_time}}</ou-button>
+                    				<ou-button type='compound' :description='bulk.text' @click="showEditPanel(bulk)">{{bulk.group.name}}<br/>{{bulk.send_date}} <br>{{bulk.send_time}}</ou-button>
 
                     
 								</div>

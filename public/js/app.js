@@ -69140,7 +69140,7 @@ var render = function() {
                               }
                             },
                             [
-                              _vm._v(_vm._s(bulk.group)),
+                              _vm._v(_vm._s(bulk.group.name)),
                               _c("br"),
                               _vm._v(_vm._s(bulk.send_date) + " "),
                               _c("br"),
