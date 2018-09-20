@@ -18,7 +18,8 @@ class CreateBulksTable extends Migration
             $table->string('text', 160);
             $table->date('send_date');
             $table->time('send_time');
-            $table->integer('group_id')->nullable();
+            $table->unsignedInteger('group_id');
+            $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
             $table->string('contact')->nullable();
             $table->boolean('is_send')->default(false);
             $table->boolean('is_delivered')->default(false);

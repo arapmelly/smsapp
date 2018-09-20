@@ -20,7 +20,8 @@ class CreateContactsTable extends Migration
             $table->string('phone')->unique();
             $table->string('email')->nullable();
             $table->boolean('is_active')->default(true);
-            $table->integer('group_id')->nullable();
+            $table->unsignedInteger('group_id');
+            $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
             $table->timestamps();
         });
     }
