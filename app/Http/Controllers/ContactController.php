@@ -136,13 +136,19 @@ class ContactController extends Controller
        
 
         foreach ($data as $d) {
+
+            if(!Contact::isExist($d->phone)){
+
+                 $contact = new Contact;
+                 $contact->f_name = $d->fname;
+                 $contact->l_name = $d->lname;
+                 $contact->phone = Contact::formatPhone($d->phone);
+                 $contact->group_id = $group_id;
+                 $contact->save();
+
+            }
           
-           $contact = new Contact;
-           $contact->f_name = $d->fname;
-           $contact->l_name = $d->lname;
-           $contact->phone = Contact::formatPhone($d->phone);
-           $contact->group_id = $group_id;
-           $contact->save();
+          
 
         }
             

@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class Contact extends Model
 {
@@ -30,5 +31,19 @@ class Contact extends Model
     
 
     	return $phone_number;
+    }
+
+
+    public static function isExist($phone){
+
+        $phone_number = Client::formatPhone($phone);
+
+        $exists = DB::table('contacts')->where('phone', '=', $phone_number)->count();
+
+        if($exists > 0){
+            return true;
+        } else {
+            return false;
+        }
     }
 }
