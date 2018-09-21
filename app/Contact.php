@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 
+use App\Contact;
+
 class Contact extends Model
 {
     //
@@ -36,7 +38,7 @@ class Contact extends Model
 
     public static function isExist($phone){
 
-        $phone_number = Client::formatPhone($phone);
+        $phone_number = Contact::formatPhone($phone);
 
         $exists = DB::table('contacts')->where('phone', '=', $phone_number)->count();
 

@@ -25,10 +25,13 @@ import 'office-ui-fabric-vue/dist/index.css';
 import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
 import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.min.css';
 
+import vueXlsxTable from 'vue-xlsx-table'
+
 Vue.use(OfficeUIFabricVue);
 
 Vue.use(axios);
 
+Vue.use(vueXlsxTable, {rABS: false}); 
 
 Vue.component('vue-ctk-date-time-picker', VueCtkDateTimePicker);
 Vue.component('example-component', require('./components/ExampleComponent.vue'));

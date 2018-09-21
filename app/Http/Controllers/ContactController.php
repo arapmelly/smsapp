@@ -127,30 +127,26 @@ class ContactController extends Controller
 
         $group_id = $request->group_id;
 
-        $path = $request->contact_file->path();
+        $data = $request->contacts;
 
-        $data = Excel::load($path, function($reader) { 
+     
 
-                })->get();
-
-       
-
-        foreach ($data as $d) {
-
-            if(!Contact::isExist($d->phone)){
+        foreach ($data as $key => $d) {
+           # code...
+            
+             if(!Contact::isExist($d['phone'])){
 
                  $contact = new Contact;
-                 $contact->f_name = $d->fname;
-                 $contact->l_name = $d->lname;
-                 $contact->phone = Contact::formatPhone($d->phone);
+                 $contact->f_name = $d['fname'];
+                 $contact->l_name = $d['lname'];
+                 $contact->phone = Contact::formatPhone($d['phone']);
                  $contact->group_id = $group_id;
                  $contact->save();
 
             }
-          
-          
 
         }
+
             
         return ['status'=>true, 'data'=>$data];
     }

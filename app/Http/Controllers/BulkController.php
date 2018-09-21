@@ -11,6 +11,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 
+use App\Contact;
+
 class BulkController extends Controller
 {
     /**
@@ -144,8 +146,10 @@ class BulkController extends Controller
 
         $datetime = explode(' ', $now);
 
+        $contact = Contact::formatPhone($request->contact);
+
         $bulk = new Bulk;
-        $bulk->contact = $request->contact;
+        $bulk->contact = $contact;
         $bulk->text = $request->text;
         $bulk->send_date = $datetime[0];
         $bulk->send_time = $datetime[1];
@@ -161,7 +165,7 @@ class BulkController extends Controller
 
         $options = [
             'message'=>$request->text,
-            'to'=>$request->contact,
+            'to'=>$contact,
             'enqueue'=>false
         ];
 

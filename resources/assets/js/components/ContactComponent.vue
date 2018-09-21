@@ -54,15 +54,17 @@
   				</ou-panel>
 
 
-  				<ou-panel title='Import Contact' size='medium' v-model='importPanel'>
+  				<ou-panel title='Import Contact' size='xl' v-model='importPanel'>
     				
 
                 	
 
-                	<label>Upload File (excel,csv)</label>
-                	<input type="file" name="contact_file" ref="contact_file" v-on:change="handleFileUpload()" required>
+                	<label>Upload File (excel,csv)</label><br>
+                	<vue-xlsx-table @on-select-file="handleSelectedFile" >Upload Contact File</vue-xlsx-table>
 
+                	<!-- <input type="file" name="contact_file" ref="contact_file" v-on:change="handleFileUpload()" required> -->
 
+                	<br><br>
                 	<label>Group</label>
                 	
                 	<select v-model="import_group_id" class="form-control">
@@ -71,11 +73,36 @@
                 	
                 	</select>
 
+                	<hr>
+
+                	<table class="table table-responsive">
+
+                		<thead>
+                			<th>First Name</th>
+                			<th>Last Name</th>
+                			<th>Phone Number</th>
+                			<th>Email</th>
+                		</thead>
+
+                		<tbody>
+                			<tr v-for="cont in imported_contacts">
+                				<td>{{cont.fname}}</td>
+                				<td>{{cont.lname}}</td>
+                				<td>{{cont.phone}}</td>
+                				<td>{{cont.email}}</td>
+                			</tr>
+                		</tbody>
+                		
+
+                	</table>
+
                 	
 
                 	<br>
 
-                	<ou-button type='primary' @click="importContact()">Import</ou-button>
+                	<ou-button type='primary' @click="impContact()">Import</ou-button>
+
+                	<br><br>
 
   				</ou-panel>
 
@@ -130,6 +157,7 @@
 			return {
 
 				contacts: [],
+				imported_contacts: [],
 				groups: [],
 				group_id: '',
 				import_group_id: '',
@@ -242,6 +270,32 @@
 				this.contact_file = this.$refs.contact_file.files[0];
 
 				console.log(this.contact_file)
+			},
+
+			handleSelectedFile (convertedData) {
+				this.imported_contacts = convertedData.body
+      			
+    		},
+
+
+    		impContact(){
+				
+
+				let importData = {
+
+					contacts: this.imported_contacts,
+					group_id: this.import_group_id
+				}
+
+				axios.post('/api/contacts/import', importData).then(response => {
+					this.getContacts()
+					this.importPanel = false
+
+				}).catch(error =>{
+					console.log(error)
+					alert(error)
+
+				})
 			},
 
 
